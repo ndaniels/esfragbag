@@ -10,8 +10,8 @@ import (
     "encoding/gob"
     "math/rand"
 
-    "github.com/yunwilliamyu/esfragbag/bow"
-    "github.com/yunwilliamyu/esfragbag/bowdb"
+    "github.com/ndaniels/esfragbag/bow"
+    "github.com/ndaniels/esfragbag/bowdb"
 
 )
 

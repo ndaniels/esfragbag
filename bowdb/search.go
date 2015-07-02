@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/yunwilliamyu/esfragbag/bow"
+	"github.com/ndaniels/esfragbag/bow"
 )
 
 const (
