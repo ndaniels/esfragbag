@@ -7,7 +7,6 @@ install:
 
 fmt:
 	gofmt -w *.go */*.go
-	colcheck *.go */*.go
 
 push:
 	git push origin master
