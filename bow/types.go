@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/TuftsBCB/fragbag"
+	"github.com/ndaniels/esfragbag"
 	"github.com/TuftsBCB/io/pdb"
 	"github.com/TuftsBCB/io/pdbx"
 	"github.com/TuftsBCB/seq"

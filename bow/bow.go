@@ -5,7 +5,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/TuftsBCB/fragbag"
+	"github.com/ndaniels/esfragbag"
 )
 
 // Bow represents a bag-of-words vector of size N for a particular fragment

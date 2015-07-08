@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TuftsBCB/fragbag"
+	"github.com/ndaniels/esfragbag"
 )
 
 var (
