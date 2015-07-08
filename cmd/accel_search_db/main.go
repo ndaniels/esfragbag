@@ -32,7 +32,7 @@ var (
     maxRadius = 0.0
     clusterRadius = 10000
     lasttime = time.Now().UTC().UnixNano()
-    gobLoc = "clusters.gob"
+    gobLoc = ""
 )
 
 
@@ -91,10 +91,11 @@ func main() {
     rand.Seed(1)
 
     fmt.Println("Loading query")
+	fmt.Printf("query: %v\n", searchQuery)
     db_query, _ := bowdb.Open(searchQuery)
     db_query.ReadAll()
     var query bow.Bowed
-    query = db_query.Entries[0]
+	query = db_query.Entries[0]
     fmt.Println(fmt.Sprintf("\t%d",timer()))
 
     fmt.Println(fmt.Sprintf("Opening centers library"))
@@ -103,7 +104,7 @@ func main() {
     fmt.Println(fmt.Sprintf("\t%d",timer()))
 
     fmt.Println("Unserializing gob")
-    db_slices := dec_gob_ss_db("clusters.gob")
+    db_slices := dec_gob_ss_db(gobLoc)
     var m map[string]int
     m = make(map[string]int)
     for i, center := range db_centers.Entries {

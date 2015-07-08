@@ -101,6 +101,7 @@ func Open(fpath string) (*DB, error) {
 // ReadAll will panic if it is called on a database that was made with the
 // Create function.
 func (db *DB) ReadAll() ([]bow.Bowed, error) {
+	
 	if db.readAllLock == nil {
 		panic("DB.ReadAll cannot be called when the database is being written")
 	}
