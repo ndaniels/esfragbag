@@ -96,7 +96,7 @@ func main() {
     //fmt.Println("Loading query")
 	flagCpu        := runtime.NumCPU()
 	fragmentLib := util.Library(json)
-	loc := "/Library/WebServer/Documents/uploads/test.bowdb"
+	loc := "/Data/test.bowdb"
 	searchQuery, err := bowdb.Create(fragmentLib, loc)
 	util.Assert(err)
 	var obj []string
