@@ -32,8 +32,8 @@ var (
     metric = cosineDist
     metricFlag = ""
     potentialTargetsLoc = ""
-    maxRadius = 0.0
-    clusterRadius = 10000
+    maxRadius float64
+    clusterRadius float64
     lasttime = time.Now().UTC().UnixNano()
     gobLoc = ""
 	json =""
@@ -48,7 +48,7 @@ func init() {
     flag.StringVar(&metricFlag, "metricFlag", metricFlag, "Choice of metric to use; valid options are 'cosine' and 'euclidean'")
    // flag.StringVar(&potentialTargetsLoc, "potentialTargets", potentialTargetsLoc, "the location of the full fragment library database")
     flag.Float64Var(&maxRadius, "maxRadius", maxRadius, "maximum radius to search in")
-    flag.IntVar(&clusterRadius, "clusterRadius", clusterRadius, "maximum cluster radius in database")
+    flag.Float64Var(&clusterRadius, "clusterRadius", clusterRadius, "maximum cluster radius in database")
 
     flag.Parse()
 
@@ -96,7 +96,7 @@ func main() {
     //fmt.Println("Loading query")
 	flagCpu        := runtime.NumCPU()
 	fragmentLib := util.Library(json)
-	loc := "/Library/WebServer/Documents/php/test.bowdb"
+	loc := "/Library/WebServer/Documents/uploads/test.bowdb"
 	searchQuery, err := bowdb.Create(fragmentLib, loc)
 	util.Assert(err)
 	var obj []string
@@ -142,11 +142,11 @@ func main() {
     }
 
     //var fine_search = bowdb.SearchOptions{
-    //    Limit:  -1,
-    //    Min:    0.0,
-    //    Max:    float64(maxRadius),
-    //    SortBy: bowdb.SortByEuclid,
-    //    Order:  bowdb.OrderAsc,
+        //Limit:  -1,
+        //Min:    0.0,
+        //Max:    float64(maxRadius),
+        //SortBy: bowdb.SortByEuclid,
+       // Order:  bowdb.OrderAsc,
     //}
 
     //fmt.Println("Computing coarse results")
@@ -157,7 +157,7 @@ func main() {
     //fmt.Println(fmt.Sprintf("\tCount: %d",len(coarse_results)))
 
 
-    //fmt.Println("Computing fine results")
+   // fmt.Println("Computing fine results")
     var fine_results []bowdb.SearchResult
     for _, center := range coarse_results {
         for _, entry := range db_slices[m[center.Id]] {
@@ -172,13 +172,15 @@ func main() {
                 result := newSearchResult(query,entry)
 				fmt.Printf(entry.Id)
 				fmt.Printf(" ")
+				fmt.Printf("%v",dist)
+				fmt.Printf(" ")
                 fine_results = append(fine_results, result)
             }
         }
     }
     //fine_results_time := timer()
-   // fmt.Println(fmt.Sprintf("\t%d",fine_results_time))
-   // fmt.Println(fmt.Sprintf("\tCount: %d",len(fine_results)))
+    //fmt.Println(fmt.Sprintf("\t%d",fine_results_time))
+    //fmt.Println(fmt.Sprintf("\tCount: %d",len(fine_results)))
 
    //fmt.Println("Opening long results database")
   //  db, _ := bowdb.Open(potentialTargetsLoc)
@@ -186,18 +188,18 @@ func main() {
   //  fmt.Println(fmt.Sprintf("\t%d",timer()))
 
  //   fmt.Println("Computing long results")
- //   var long_results []bowdb.SearchResult
- //   long_results = db.Search(fine_search, query)
+    //var long_results []bowdb.SearchResult
+    //long_results = db.Search(fine_search, query)
  //   long_results_time := timer()
  //   fmt.Println(fmt.Sprintf("\t%d",long_results_time))
- //   fmt.Println(fmt.Sprintf("\tCount: %d",len(long_results)))
+    //fmt.Println(fmt.Sprintf("\tCount: %d",len(long_results)))
 
- //   fmt.Println("")
-   // fmt.Println(fmt.Sprintf("Accel:\t%d",coarse_results_time+fine_results_time))
+    //fmt.Println("")
+    //fmt.Println(fmt.Sprintf("Accel:\t%d",coarse_results_time+fine_results_time))
 	//elapsed := time.Since(start)
 	//fmt.Printf("%v",fine_results)
 	os.Remove(loc)
 	
 	   // fmt.Printf("Accel took %s\n", elapsed)
- //   fmt.Println(fmt.Sprintf("Naive:\t%d",long_results_time))
+    //fmt.Println(fmt.Sprintf("Naive:\t%d",long_results_time))
 }
