@@ -11,7 +11,6 @@ import (
 	//"strconv"
 	"encoding/gob"
 	"math/rand"
-	"os"
 
 	"github.com/ndaniels/esfragbag/bow"
 	"github.com/ndaniels/esfragbag/bowdb"
