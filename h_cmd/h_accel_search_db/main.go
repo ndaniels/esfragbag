@@ -33,7 +33,7 @@ var (
     metricFlag = ""
     potentialTargetsLoc = ""
     maxRadius float64
-    clusterRadius float64
+    clusterRadius int
     lasttime = time.Now().UTC().UnixNano()
     gobLoc = ""
 	json =""
@@ -48,7 +48,7 @@ func init() {
     flag.StringVar(&metricFlag, "metricFlag", metricFlag, "Choice of metric to use; valid options are 'cosine' and 'euclidean'")
    // flag.StringVar(&potentialTargetsLoc, "potentialTargets", potentialTargetsLoc, "the location of the full fragment library database")
     flag.Float64Var(&maxRadius, "maxRadius", maxRadius, "maximum radius to search in")
-    flag.Float64Var(&clusterRadius, "clusterRadius", clusterRadius, "maximum cluster radius in database")
+    flag.IntVar(&clusterRadius, "clusterRadius", clusterRadius, "maximum cluster radius in database")
 
     flag.Parse()
 
@@ -96,7 +96,7 @@ func main() {
     //fmt.Println("Loading query")
 	flagCpu        := runtime.NumCPU()
 	fragmentLib := util.Library(json)
-	loc := "/data/test.bowdb"
+	loc := "/Library/WebServer/Documents/uploads/test.bowdb"
 	searchQuery, err := bowdb.Create(fragmentLib, loc)
 	util.Assert(err)
 	var obj []string
