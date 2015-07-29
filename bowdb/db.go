@@ -21,7 +21,7 @@ import (
 
 const (
 	fileBowDB   = "bow.db"
-	fileFragLib = "/Users/barisekim/go/src/github.com/ndaniels/flib/flibs-structure/400-11.json"
+	fileFragLib = "frag-lib.json"
 )
 
 // DB represents a BOW database. It is always connected to a particular
