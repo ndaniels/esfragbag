@@ -96,13 +96,12 @@ func main() {
 	//fmt.Println("Loading query")
 	flagCpu := runtime.NumCPU()
 	fragmentLib := util.Library(json)
-  pdbQueries := make([]string, 1)
-  pdbQueries[0] = pdbQuery
+	pdbQueries := make([]string, 1)
+	pdbQueries[0] = pdbQuery
 	bows := util.ProcessBowers(pdbQueries, fragmentLib, false, flagCpu, util.FlagQuiet)
 	// for b := range bows {
 	//   searchQuery.Add(b)
 	// }
-	query := bows[0]
 
 	db_centers, _ := bowdb.Open(fragmentLibraryLoc)
 	db_centers.ReadAll()
@@ -139,55 +138,34 @@ func main() {
 	//}
 
 	//fmt.Println("Computing coarse results")
-	var coarse_results []bowdb.SearchResult
-	coarse_results = db_centers.Search(coarse_search, query)
-	//coarse_results_time := timer()
-	//fmt.Println(fmt.Sprintf("\t%d",coarse_results_time))
-	//fmt.Println(fmt.Sprintf("\tCount: %d",len(coarse_results)))
+	for b := range bows {
+		var coarse_results []bowdb.SearchResult
+		coarse_results = db_centers.Search(coarse_search, b)
+		//coarse_results_time := timer()
+		//fmt.Println(fmt.Sprintf("\t%d",coarse_results_time))
+		//fmt.Println(fmt.Sprintf("\tCount: %d",len(coarse_results)))
 
-	// fmt.Println("Computing fine results")
-	var fine_results []bowdb.SearchResult
-	for _, center := range coarse_results {
-		for _, entry := range db_slices[m[center.Id]] {
-			var dist float64
-			switch metric {
-			case cosineDist:
-				dist = query.Bow.Cosine(entry.Bow)
-			case euclideanDist:
-				dist = query.Bow.Euclid(entry.Bow)
-			}
-			if dist <= float64(maxRadius) {
-				result := newSearchResult(query, entry)
-				fmt.Printf(entry.Id)
-				fmt.Printf(" ")
-				fmt.Printf("%v", dist)
-				fmt.Printf(" ")
-				fine_results = append(fine_results, result)
+		// fmt.Println("Computing fine results")
+		var fine_results []bowdb.SearchResult
+		for _, center := range coarse_results {
+			for _, entry := range db_slices[m[center.Id]] {
+				var dist float64
+				switch metric {
+				case cosineDist:
+					dist = b.Bow.Cosine(entry.Bow)
+				case euclideanDist:
+					dist = b.Bow.Euclid(entry.Bow)
+				}
+				if dist <= float64(maxRadius) {
+					result := newSearchResult(b, entry)
+					fmt.Printf(entry.Id)
+					fmt.Printf(" ")
+					fmt.Printf("%v", dist)
+					fmt.Printf(" ")
+					fine_results = append(fine_results, result)
+				}
 			}
 		}
 	}
-	//fine_results_time := timer()
-	//fmt.Println(fmt.Sprintf("\t%d",fine_results_time))
-	//fmt.Println(fmt.Sprintf("\tCount: %d",len(fine_results)))
 
-	//fmt.Println("Opening long results database")
-	//  db, _ := bowdb.Open(potentialTargetsLoc)
-	//  db.ReadAll()
-	//  fmt.Println(fmt.Sprintf("\t%d",timer()))
-
-	//   fmt.Println("Computing long results")
-	//var long_results []bowdb.SearchResult
-	//long_results = db.Search(fine_search, query)
-	//   long_results_time := timer()
-	//   fmt.Println(fmt.Sprintf("\t%d",long_results_time))
-	//fmt.Println(fmt.Sprintf("\tCount: %d",len(long_results)))
-
-	//fmt.Println("")
-	//fmt.Println(fmt.Sprintf("Accel:\t%d",coarse_results_time+fine_results_time))
-	//elapsed := time.Since(start)
-	//fmt.Printf("%v",fine_results)
-	os.Remove(loc)
-
-	// fmt.Printf("Accel took %s\n", elapsed)
-	//fmt.Println(fmt.Sprintf("Naive:\t%d",long_results_time))
 }
