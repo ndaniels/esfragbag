@@ -96,7 +96,9 @@ func main() {
 	//fmt.Println("Loading query")
 	flagCpu := runtime.NumCPU()
 	fragmentLib := util.Library(json)
-	bows := util.ProcessBowers(pdbQuery, fragmentLib, false, flagCpu, util.FlagQuiet)
+  pdbQueries := make([]string, 1)
+  pdbQueries[0] = pdbQuery
+	bows := util.ProcessBowers(pdbQueries, fragmentLib, false, flagCpu, util.FlagQuiet)
 	// for b := range bows {
 	//   searchQuery.Add(b)
 	// }
